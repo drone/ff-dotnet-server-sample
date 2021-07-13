@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using Serilog;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HarnesSDKSample
@@ -11,15 +12,15 @@ namespace HarnesSDKSample
         static async Task Main(string[] args)
         {
             Config config;
-            //change this to your API_KEY 
-            string API_KEY = "e9305965-4db9-483b-8277-5d400377e948";
+
+            // Change this to your API_KEY :
+            string API_KEY = "YOUR_API_KEY";
 
             //change to your flag id's
-            string boolflagname = "t2";
-            string numberflagname = "Tnumber";
-            string stringflagname = "Tstring";
-            string jsonflagname = "Tjson";
-
+            string boolflagname = "flag1";
+            string numberflagname = "flag2";
+            string stringflagname = "flag3";
+            string jsonflagname = "flag4";
 
             //If you want you can uncoment this 
             //configure serilog sink you want
@@ -31,55 +32,52 @@ namespace HarnesSDKSample
 
 
             config = Config.Builder()
-                .SetPollingInterval(10000)
                 .SetAnalyticsEnabled()
                 .SetStreamEnabled(true)
+                // For UAT environment:
+                // .ConfigUrl("https://config.feature-flags.uat.harness.io/api/1.0")
+                // .EventUrl("https://event.feature-flags.uat.harness.io/api/1.0")
                 .Build();
+
+            Console.WriteLine("Config URL: " + config.ConfigUrl);
+            Console.WriteLine("Event URL: " + config.EventUrl);
 
             CfClient cfClient = await CfClient.getInstance(API_KEY, config);
 
-            Console.Write("Pres any key > ");
-            ConsoleKeyInfo commandline = Console.ReadKey();
-
-            cfClient = await CfClient.getInstance();
             io.harness.cfsdk.client.dto.Target target =
                 io.harness.cfsdk.client.dto.Target.builder()
-                .Name("Aptiv") //can change with your target name
-                .Identifier("1") //can change with your target identifier
+                .Name("Harness") //can change with your target name
+                .Identifier("Harness") //can change with your target identifier
                 .build();
 
-            Console.WriteLine("Bool Variation Calculation Comamnd Start ==============");
-            bool result = await cfClient.boolVariation(boolflagname, target, false);
-            Console.WriteLine("Bool Variation value ---->" + result);
-            Console.WriteLine("Bool Variation Calculation Comamnd Stop ---------------\n\n\n");
+            while (true) {
 
-            Console.Write("Pres any key > ");
-             commandline = Console.ReadKey();
+                cfClient = await CfClient.getInstance();
 
-            Console.WriteLine("String Variation Calculation Comamnd Start ==============");
-            string sresult = await cfClient.stringVariation(stringflagname, target, "def value");
-            Console.WriteLine("String Variation value ---->" + sresult);
-            Console.WriteLine("String Variation Calculation Comamnd Stop ---------------\n\n\n");
+                Console.WriteLine("Bool Variation Calculation Comamnd Start ============== " + boolflagname);
+                bool result = await cfClient.boolVariation(boolflagname, target, false);
+                Console.WriteLine("Bool Variation value ---->" + result);
+                Console.WriteLine("Bool Variation Calculation Comamnd Stop ---------------\n\n\n");
 
-            Console.Write("Pres any key > ");
-             commandline = Console.ReadKey();
+                Console.WriteLine("String Variation Calculation Comamnd Start ============== " + stringflagname);
+                string sresult = await cfClient.stringVariation(stringflagname, target, "def value");
+                Console.WriteLine("String Variation value ---->" + sresult);
+                Console.WriteLine("String Variation Calculation Comamnd Stop ---------------\n\n\n");
 
-            Console.WriteLine("Number Variation Calculation Comamnd Start ==============");
-            double dresult = await cfClient.numberVariation(numberflagname, target, 999999);
-            Console.WriteLine("Number Variation value ---->" + dresult);
-            Console.WriteLine("Number Variation Calculation Comamnd Stop ---------------\n\n\n");
+                Console.WriteLine("Number Variation Calculation Comamnd Start ============== " + numberflagname);
+                double dresult = await cfClient.numberVariation(numberflagname, target, 999999);
+                Console.WriteLine("Number Variation value ---->" + dresult);
+                Console.WriteLine("Number Variation Calculation Comamnd Stop ---------------\n\n\n");
 
-            Console.Write("Pres any key > ");
-             commandline = Console.ReadKey();
-
-            Console.WriteLine("JSON Variation Calculation Comamnd Start ==============");
-            JObject Jresult = await cfClient.jsonVariation(jsonflagname, target, JObject.Parse(@"{
+                Console.WriteLine("JSON Variation Calculation Comamnd Start ============== " + jsonflagname);
+                JObject Jresult = await cfClient.jsonVariation(jsonflagname, target, JObject.Parse(@"{
   DefVal: 'JSON def value',
 }"));
-            Console.WriteLine("JSON Variation value ---->" + Jresult.ToString());
-            Console.WriteLine("JSON Variation Calculation Comamnd Stop ---------------\n\n\n");
-            Console.Write("Pres any key > ");
-             commandline = Console.ReadKey();
+                Console.WriteLine("JSON Variation value ---->" + Jresult.ToString());
+                Console.WriteLine("JSON Variation Calculation Comamnd Stop ---------------\n\n\n");
+
+                Thread.Sleep(2000);
+            }
         }
 
     }
