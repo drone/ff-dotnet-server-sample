@@ -22,13 +22,13 @@ namespace HarnesSDKSample
             string stringflagname = "flag3";
             string jsonflagname = "flag4";
 
-            //If you want you can uncoment this 
-            //configure serilog sink you want
-            //and see internal SDK information messages
-            //Log.Logger = new LoggerConfiguration()
-            //   .MinimumLevel.Debug()
-            //   .WriteTo.File("c:\\harness\\logs\\TestLog.txt", rollingInterval: RollingInterval.Day)
-            //   .CreateLogger();
+            // If you want you can uncoment this 
+            // configure serilog sink you want
+            // and see internal SDK information messages:
+            // Log.Logger = new LoggerConfiguration()
+               // .MinimumLevel.Debug()
+               // .WriteTo.File("c:\\harness\\logs\\TestLog.txt", rollingInterval: RollingInterval.Day)
+               // .CreateLogger();
 
 
             config = Config.Builder()
