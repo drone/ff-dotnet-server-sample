@@ -14,13 +14,11 @@ namespace HarnesSDKSample
             Config config;
 
             // Change this to your API_KEY :
-            string API_KEY = "YOUR_API_KEY";
+            string API_KEY = "110f158a-3f54-4aea-9de4-03af85a38b63";
 
             //change to your flag id's
-            string boolflagname = "flag1";
-            string numberflagname = "flag2";
-            string stringflagname = "flag3";
-            string jsonflagname = "flag4";
+            string boolflagname = "TestBool";
+           
 
             // If you want you can uncoment this 
             // configure serilog sink you want
@@ -46,35 +44,18 @@ namespace HarnesSDKSample
 
             io.harness.cfsdk.client.dto.Target target =
                 io.harness.cfsdk.client.dto.Target.builder()
-                .Name("Harness") //can change with your target name
-                .Identifier("Harness") //can change with your target identifier
+                .Name("Milos Vasic") //can change with your target name
+                .Identifier("milos") //can change with your target identifier
                 .build();
 
             while (true) {
 
-                cfClient = await CfClient.getInstance();
+                cfClient = fClient.getInstance();
 
                 Console.WriteLine("Bool Variation Calculation Comamnd Start ============== " + boolflagname);
                 bool result = await cfClient.boolVariation(boolflagname, target, false);
                 Console.WriteLine("Bool Variation value ---->" + result);
                 Console.WriteLine("Bool Variation Calculation Comamnd Stop ---------------\n\n\n");
-
-                Console.WriteLine("String Variation Calculation Comamnd Start ============== " + stringflagname);
-                string sresult = await cfClient.stringVariation(stringflagname, target, "def value");
-                Console.WriteLine("String Variation value ---->" + sresult);
-                Console.WriteLine("String Variation Calculation Comamnd Stop ---------------\n\n\n");
-
-                Console.WriteLine("Number Variation Calculation Comamnd Start ============== " + numberflagname);
-                double dresult = await cfClient.numberVariation(numberflagname, target, 999999);
-                Console.WriteLine("Number Variation value ---->" + dresult);
-                Console.WriteLine("Number Variation Calculation Comamnd Stop ---------------\n\n\n");
-
-                Console.WriteLine("JSON Variation Calculation Comamnd Start ============== " + jsonflagname);
-                JObject Jresult = await cfClient.jsonVariation(jsonflagname, target, JObject.Parse(@"{
-  DefVal: 'JSON def value',
-}"));
-                Console.WriteLine("JSON Variation value ---->" + Jresult.ToString());
-                Console.WriteLine("JSON Variation Calculation Comamnd Stop ---------------\n\n\n");
 
                 Thread.Sleep(2000);
             }

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ff-netF48-server-sdk" Version="1.0.1" />
+    <PackageReference Include="ff-netF48-server-sdk" Version="1.0.3" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
