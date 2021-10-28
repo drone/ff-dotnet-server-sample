@@ -40,7 +40,8 @@ namespace HarnesSDKSample
             Console.WriteLine("Config URL: " + config.ConfigUrl);
             Console.WriteLine("Event URL: " + config.EventUrl);
 
-            CfClient cfClient = await CfClient.getInstance(API_KEY, config);
+            CfClient cfClient = CfClient.getInstance();
+            cfClient.Initialize(API_KEY, config);
 
             io.harness.cfsdk.client.dto.Target target =
                 io.harness.cfsdk.client.dto.Target.builder()
@@ -53,7 +54,7 @@ namespace HarnesSDKSample
                 cfClient = CfClient.getInstance();
 
                 Console.WriteLine("Bool Variation Calculation Comamnd Start ============== " + boolflagname);
-                bool result = await cfClient.boolVariation(boolflagname, target, false);
+                bool result = cfClient.boolVariation(boolflagname, target, false);
                 Console.WriteLine("Bool Variation value ---->" + result);
                 Console.WriteLine("Bool Variation Calculation Comamnd Stop ---------------\n\n\n");
 
