@@ -50,10 +50,10 @@ namespace HarnesSDKSample
 
             while (true) {
 
-                Console.WriteLine("Bool Variation Calculation Comamnd Start ============== " + boolflagname);
+                Console.WriteLine("Bool Variation Calculation Command Start ============== " + boolflagname);
                 bool result = CfClient.Instance.boolVariation(boolflagname, target, false);
                 Console.WriteLine("Bool Variation value ---->" + result);
-                Console.WriteLine("Bool Variation Calculation Comamnd Stop ---------------\n\n\n");
+                Console.WriteLine("Bool Variation Calculation Command Stop ---------------\n\n\n");
 
                 Thread.Sleep(2000);
             }
