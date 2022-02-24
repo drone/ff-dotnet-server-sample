@@ -14,7 +14,7 @@ namespace HarnesSDKSample
             Config config;
 
             // Change this to your API_KEY :
-            string API_KEY = "30453379-a9e5-49c2-b65b-f2a915b1c6fc";
+            string API_KEY = "YOUR_API_KEY_GOES_HERE";
 
             // Change to your flag id's
             string flag1 = "flag1";
@@ -35,8 +35,8 @@ namespace HarnesSDKSample
                 .SetAnalyticsEnabled()
                 .SetStreamEnabled(true)
                 // If you want to use the custom server environment:
-                .ConfigUrl("https://config.feature-flags.uat.harness.io/api/1.0")
-                .EventUrl("https://event.feature-flags.uat.harness.io/api/1.0")
+                // .ConfigUrl("https://config.feature-flags.uat.harness.io/api/1.0")
+                // .EventUrl("https://event.feature-flags.uat.harness.io/api/1.0")
                 .Build();
 
             Console.WriteLine("Config URL: " + config.ConfigUrl);
