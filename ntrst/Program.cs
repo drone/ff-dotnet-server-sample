@@ -14,27 +14,29 @@ namespace HarnesSDKSample
             Config config;
 
             // Change this to your API_KEY :
-            string API_KEY = "110f158a-3f54-4aea-9de4-03af85a38b63";
+            string API_KEY = "30453379-a9e5-49c2-b65b-f2a915b1c6fc";
 
-            //change to your flag id's
-            string boolflagname = "TestBool";
-           
+            // Change to your flag id's
+            string flag1 = "flag1";
+            string flag2 = "flag2";
+            string flag3 = "flag3";
+            string flag4 = "flag4";
 
-            // If you want you can uncoment this 
-            // configure serilog sink you want
-            // and see internal SDK information messages:
+
+            // If you want you can uncoment this configure serilog sink you want and see internal SDK information messages:
+            //
             // Log.Logger = new LoggerConfiguration()
-               // .MinimumLevel.Debug()
-               // .WriteTo.File("c:\\harness\\logs\\TestLog.txt", rollingInterval: RollingInterval.Day)
-               // .CreateLogger();
+            // .MinimumLevel.Debug()
+            // .WriteTo.File("c:\\harness\\logs\\TestLog.txt", rollingInterval: RollingInterval.Day)
+            // .CreateLogger();
 
 
             config = Config.Builder()
                 .SetAnalyticsEnabled()
                 .SetStreamEnabled(true)
-                // For UAT environment:
-                // .ConfigUrl("https://config.feature-flags.uat.harness.io/api/1.0")
-                // .EventUrl("https://event.feature-flags.uat.harness.io/api/1.0")
+                // If you want to use the custom server environment:
+                .ConfigUrl("https://config.feature-flags.uat.harness.io/api/1.0")
+                .EventUrl("https://event.feature-flags.uat.harness.io/api/1.0")
                 .Build();
 
             Console.WriteLine("Config URL: " + config.ConfigUrl);
@@ -44,18 +46,25 @@ namespace HarnesSDKSample
 
             io.harness.cfsdk.client.dto.Target target =
                 io.harness.cfsdk.client.dto.Target.builder()
-                .Name("Milos Vasic") //can change with your target name
-                .Identifier("milos") //can change with your target identifier
+                .Name("Dot_Net_SDK") // Can change with your target name
+                .Identifier("Sample_App") // Can change with your target identifier
                 .build();
 
             while (true) {
 
-                Console.WriteLine("Bool Variation Calculation Command Start ============== " + boolflagname);
-                bool result = CfClient.Instance.boolVariation(boolflagname, target, false);
-                Console.WriteLine("Bool Variation value ---->" + result);
-                Console.WriteLine("Bool Variation Calculation Command Stop ---------------\n\n\n");
+                bool resultBool = CfClient.Instance.boolVariation(flag1, target, false);
+                double resultNumber = CfClient.Instance.numberVariation(flag2, target, -1.0);
+                string resultString = CfClient.Instance.stringVariation(flag3, target, "NO VALUE !!!");
+                JObject resultJson = CfClient.Instance.jsonVariation(flag4, target, null);
 
-                Thread.Sleep(2000);
+                Console.WriteLine("Bool value ---->" + resultBool);
+                Console.WriteLine("Number value ---->" + resultNumber);
+                Console.WriteLine("String value ---->" + resultString);
+                Console.WriteLine("JSON value ---->" + resultJson);
+
+                Console.WriteLine("---------------");
+
+                Thread.Sleep(10 * 1000);
             }
         }
 
