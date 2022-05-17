@@ -1,6 +1,7 @@
 ﻿using io.harness.cfsdk.client.api;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using System.Collections.Generic;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,10 +26,10 @@ namespace HarnesSDKSample
 
             // If you want you can uncoment this configure serilog sink you want and see internal SDK information messages:
             //
-            // Log.Logger = new LoggerConfiguration()
-            // .MinimumLevel.Debug()
-            // .WriteTo.File("c:\\harness\\logs\\TestLog.txt", rollingInterval: RollingInterval.Day)
-            // .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            //    .MinimumLevel.Debug()
+            //    .WriteTo.File("c:\\Temp\\TestLog.txt", rollingInterval: RollingInterval.Day)
+            //    .CreateLogger();
 
 
             config = Config.Builder()
@@ -44,10 +45,19 @@ namespace HarnesSDKSample
 
             await CfClient.Instance.Initialize(API_KEY, config);
 
+            Dictionary<string, string> attrs =
+                        new Dictionary<string, string>();
+
+            attrs.Add("email", "hello@example.com");
+            attrs.Add("one", "one");
+            attrs.Add("two", "two");
+            attrs.Add("three", "three");
+
             io.harness.cfsdk.client.dto.Target target =
                 io.harness.cfsdk.client.dto.Target.builder()
-                .Name("Dot_Net_SDK") // Can change with your target name
-                .Identifier("Sample_App") // Can change with your target identifier
+                .Name("My_Target") // Can change with your target name
+                .Identifier("hello@example.com") // Can change with your target identifier
+                .Attributes(attrs)
                 .build();
 
             while (true) {
